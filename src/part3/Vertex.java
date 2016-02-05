@@ -7,7 +7,9 @@ public class Vertex
     private int name;
     private ArrayList<Edge> incomingEdges;
     private ArrayList<Edge> outgoingEdges;
-    private boolean visited;
+
+    enum Status{UNVISITED, IN_PROGRESS, DONE}
+    private Status status;
 
     public Vertex(int name)
     {
@@ -16,7 +18,7 @@ public class Vertex
         incomingEdges = new ArrayList<>();
         outgoingEdges = new ArrayList<>();
 
-        this.visited = false;
+        this.status = Status.UNVISITED;
     }
 
     public int getName()
@@ -34,9 +36,9 @@ public class Vertex
         return outgoingEdges;
     }
 
-    public boolean isVisited()
+    public Status getStatus()
     {
-        return visited;
+        return status;
     }
 
     public void addIncomingEdge(Edge edge)
@@ -47,6 +49,21 @@ public class Vertex
     public void addOutgoingEdge(Edge edge)
     {
         outgoingEdges.add(edge);
+    }
+
+    public void setStatus(Status status)
+    {
+        this.status = status;
+    }
+
+    public ArrayList<Vertex> getNeighbors()
+    {
+        ArrayList<Vertex> neighbors = new ArrayList<>();
+        for(Edge edge : this.getOutgoingEdges())
+        {
+            neighbors.add(edge.getEndingVertex());
+        }
+        return neighbors;
     }
 
     @Override
@@ -64,7 +81,6 @@ public class Vertex
             to.add(edge.getEndingVertex().getName());
         }
 
-        return "(name = " + name + ", incoming edges from = " + from + ", outgoing edges to = " + to + ", visited = "
-                + visited + ")";
+        return "(name = " + name + ", incoming edges from = " + from + ", outgoing edges to = " + to + ")";
     }
 }

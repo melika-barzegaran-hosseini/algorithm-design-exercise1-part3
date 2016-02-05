@@ -2,6 +2,7 @@ package part3;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Stack;
 
 public class Graph
 {
@@ -107,6 +108,67 @@ public class Graph
         }
     }
 
+    private Stack<Vertex> getCycle(Vertex vertex)
+    {
+        for(Vertex current : vertices)
+        {
+            current.setStatus(Vertex.Status.UNVISITED);
+        }
+
+        Stack<Vertex> stack = new Stack<>();
+        vertex.setStatus(Vertex.Status.IN_PROGRESS);
+        stack.push(vertex);
+
+        while(!stack.isEmpty())
+        {
+            Vertex current = stack.peek();
+
+            boolean flag = false;
+            for(Vertex neighbor : current.getNeighbors())
+            {
+                if(neighbor.getStatus() == Vertex.Status.IN_PROGRESS)
+                {
+                    return stack;
+                }
+                else if(neighbor.getStatus() == Vertex.Status.UNVISITED)
+                {
+                    flag = true;
+                    neighbor.setStatus(Vertex.Status.IN_PROGRESS);
+                    stack.push(neighbor);
+                }
+            }
+
+            if(!flag)
+            {
+                current.setStatus(Vertex.Status.DONE);
+                stack.pop();
+            }
+        }
+
+        return null;
+    }
+
+    public Stack<Stack<Vertex>> getCycles()
+    {
+        Stack<Stack<Vertex>> cycles = new Stack<>();
+        for(Vertex vertex : vertices)
+        {
+            Stack<Vertex> cycle = getCycle(vertex);
+            if(cycle != null)
+            {
+                cycles.push(cycle);
+            }
+        }
+        if(cycles.isEmpty())
+        {
+            return null;
+        }
+        else
+        {
+            return cycles;
+        }
+    }
+
     @Override
     public String toString()
     {
@@ -128,5 +190,24 @@ public class Graph
     {
         Graph graph = new Graph("testcases/test.txt");
         System.out.println(graph.toString());
+
+        Stack<Stack<Vertex>> cycles = graph.getCycles();
+        if(cycles == null)
+        {
+            System.out.println("the graph is acyclic.");
+        }
+        else
+        {
+            System.out.println("the graph is cyclic (the following cycles may be the same)...");
+            for(Stack<Vertex> cycle : cycles)
+            {
+                System.out.print("cycle " + cycles.indexOf(cycle) + "th: ");
+                for(Vertex vertex : cycle)
+                {
+                    System.out.print(vertex.getName() + " ");
+                }
+                System.out.println();
+            }
+        }
     }
 }
