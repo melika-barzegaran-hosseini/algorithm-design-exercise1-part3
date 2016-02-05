@@ -4,6 +4,12 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Stack;
 
+/**
+ * Represents a graph.
+ * It is used to detect cycles in logical statements.
+ *
+ * @author melika barzegaran hosseini
+ */
 public class Graph
 {
     private ArrayList<Vertex> vertices;

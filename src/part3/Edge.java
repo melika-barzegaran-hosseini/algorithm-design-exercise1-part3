@@ -1,5 +1,10 @@
 package part3;
 
+/**
+ * Represents an edge of a graph.
+ *
+ * @author melika barzegaran hosseini
+ */
 public class Edge
 {
     private Vertex startingVertex;

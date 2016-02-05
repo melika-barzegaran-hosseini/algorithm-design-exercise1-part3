@@ -2,6 +2,11 @@ package part3;
 
 import java.util.ArrayList;
 
+/**
+ * Represents a vertex of a graph.
+ *
+ * @author melika barzegaran hosseini
+ */
 public class Vertex
 {
     private int name;
