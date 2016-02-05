@@ -57,6 +57,17 @@ public class Graph
                 }
             }
 
+            System.out.println("input:");
+            for(int i = 0; i < numberOfVertices; i++)
+            {
+                for(int j = 0; j < numberOfVertices; j++)
+                {
+                    System.out.print(connections[i][j] + " ");
+                }
+                System.out.println();
+            }
+            System.out.println();
+
             return connections;
         }
         catch (FileNotFoundException e)
@@ -186,9 +197,12 @@ public class Graph
         return message.toString();
     }
 
-    public static void main(String args[])
+    public static void test(String path)
     {
-        Graph graph = new Graph("testcases/test.txt");
+        System.out.println("=========================================================================================");
+        System.out.println("testing testcase '" + path + "'...\n");
+
+        Graph graph = new Graph(path);
         System.out.println(graph.toString());
 
         Stack<Stack<Vertex>> cycles = graph.getCycles();
@@ -209,5 +223,14 @@ public class Graph
                 System.out.println();
             }
         }
+        System.out.println();
+    }
+
+    public static void main(String args[])
+    {
+        final String TESTCASE_FOLDER = "testcases" + File.separator;
+        Graph.test(TESTCASE_FOLDER + "1.txt");
+        Graph.test(TESTCASE_FOLDER + "2.txt");
+        Graph.test(TESTCASE_FOLDER + "3.txt");
     }
 }
